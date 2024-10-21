@@ -1,16 +1,16 @@
-float x=400, y=400, shots=0, score=0, skill=0, hasStarted = 0, gameMode = 99999, stupidBugFixer = 0, classicHighScore=0, survivalHighScore=0, tensHighScore=0, fakeHighScore=0;
+float x=400, y=400, shots=0, score=0, skill=0, hasStarted = 0, gameMode = 99999, stupidBugFixer = 0, classicHighScore=0, survivalHighScore=0, tensHighScore=0, fakeHighScore=0, difficulty=2;
 float newx = 0, newy = 0, ogx=random(1,3), ogy=random(0,3);
 boolean up, down, left, right, mousepressed, P1duelTimeLoss, P2duelTimeLoss, basicTimeLoss, survivalTimeLoss, tensTimerLoss, fakeTimeLoss, fakeMissLoss, missLoss, untrackLoss;
 boolean key1, key2, key3, p2cheat, oneGone, twoGone, threeGone;
 ArrayList<Circles> CirclesArrayList= new ArrayList<Circles>();
 float basicTimer=40, P1duelScore=0, P1tiebreaker=0,P2duelScore=0,P2tiebreaker=0, P2duelShots, survivalTimer=60, survivalTargetSize, tensTimer=60, moveTimer=random(10,30);
-float moveHighScore=0, misses=0, trackHighScore, seizeHighScore, sequence, sequenceHighScore, sequenceScore, newnewx, newnewy, newnewnewx, newnewnewy, oldMouseX, oldMouseY;
-float fpsHighScore, newnewnewnewx, newnewnewnewy, defenseHighScore, randomR, randomG, randomB, camoHighScore, clicks;
+float moveHighScore=0, misses=0, trackHighScore, seizeHighScore, sequence, sequenceHighScore, sequenceScore, newnewx, newnewy, newnewnewx, newnewnewy, oldMouseX, oldMouseY, easyMoveHighScore;
+float fpsHighScore, newnewnewnewx, newnewnewnewy, defenseHighScore, randomR, randomG, randomB, camoHighScore, clicks, easyClassicHighScore, easySurvivalHighScore, easyTensHighScore, easyFakeHighScore;
 import java.awt.Robot;
 Robot robot;
 import processing.sound.*;
 SoundFile file;
-//PUT IN THE WOOD NOISE
+
 void setup() {
   fullScreen();
   x=random(0,width);
@@ -46,6 +46,66 @@ void draw() {
     }
   if(hasStarted==1){
     basicTimeLoss=false;
+    if(key1==true){
+      difficulty=1;
+    }
+  
+    if(key3==true){
+      difficulty=3;
+    }
+    if(key2==true){
+    difficulty=2;
+    }
+    if(difficulty==1){
+      fill(255,0,0);
+      circle(width/6,height/4,150);
+      textSize(15);
+      text("EASY CLASSIC", width/6-42, height/4+100);
+      fill(0,255,0);
+      circle(width/3,height/4,150);
+      text("EASY DUEL", width/3-30, height/4+100);
+      fill(0,0,255);
+    circle(width/2,height/4,150);
+    text("EASY SURVIVAL", width/2-24, height/4+100);
+    fill(255,255,0);
+    circle(width/3*2,height/4,150);
+    text("EASY PERFECT 10s", width/3*2-35, height/4+100);
+    fill(255,127,0);
+    circle(width/6*5,height/4,150);
+    text("EASY FAKE TARGETS", width/6*5-43, height/4+100);
+    fill(#FFFFFF);
+    circle(width/6*5,height/4*3, 150);
+    text("MAIN MENU", width/6*5-38, height/4*3+100);
+    fill(255,0,255);
+    circle(width/6,height/4*3,150);
+    text("EASY MOVING TARGETS", width/6-52, height/4*3+100);
+    fill(0,255,255);
+    circle(width/3,height/4*3,150);
+    text("EASY TARGET TRACKER", width/3-52, height/4*3+100);
+    fill(255,0,127);
+    circle(width/2,height/4*3,150);
+    text("EASY SEIZURE CLASSIC", width/2-54, height/4*3+100);
+    fill(0,255,127);
+    circle(width/3*2,height/4*3,150);
+    text("EASY 2 PLAYER MOVING TARGETS", width/3*2-80, height/4*3+100);
+    fill(127,0,255);
+    circle(width/6, height/2, 150);
+    text("EASY SEQUENCING", width/6-43, height/2+100);
+    fill(127,255,0);
+    circle(width/3,height/2,150);
+    text("EASY FPS", width/3-13, height/2+100);
+    fill(127,127,0);
+    circle(width/3*2,height/2,150);
+    text("EASY DEFENSE",width/3*2-30,height/2+100);
+    fill(0,127,127);
+    circle(width/6*5,height/2,150);
+    text("EASY CAMOUFLAGE",width/6*5-43,height/2+100);
+    fill(127,0,127);
+    text("CPS TEST",width/2-30,height/2+100);
+    circle(width/2,height/2,150);
+    }
+    
+    if(difficulty==2){
     fill(255,0,0);
     circle(width/6,height/4,150);
     textSize(15);
@@ -92,7 +152,12 @@ void draw() {
     fill(127,0,127);
     text("CPS TEST",width/2-30,height/2+100);
     circle(width/2,height/2,150);
+    }
+    textSize(20);
+    fill(#FFFFFF);
+    text("PRESS 1 FOR EASY, 2 FOR NORMAL, 3 FOR HARD", width/2-200,height-100);
   }
+  
   if(hasStarted>=2 && gameMode==0){
     fill(#FFFFFF);
     textSize(40);
@@ -144,7 +209,7 @@ void draw() {
     text("RULES:", 300, 100);
     text("There will be two targets.", 300, 200);
     text("The one will normal coloring is real.", 300, 250);
-    text("The one with green is fake.", 300, 300);
+    text("The one with changed coloring is fake.", 300, 300);
     text("If you ever click the fake target, you lose.", 300, 350);
     text("If you take more than 3/4 seconds to click a target, you lose.", 300, 400);
     text("If you miss, you lose", 300, 450);
@@ -162,19 +227,19 @@ void draw() {
       fakeTimeLoss=true;
     }
     
-    fill(0,255,0);
+    fill(#FFFFFF);
     circle(newx, newy, 275);
     circle(newx, newy, 250);
     fill(#161617);
     circle(newx, newy, 225);
     circle(newx, newy, 200);
-    fill(#0081FF);
+    fill(#0000FF);
     circle(newx, newy, 175);
     circle(newx, newy, 150);
-    fill(#FF0100);
+    fill(255,50,50);
     circle(newx, newy, 125);
     circle(newx, newy, 100);
-    fill(#FFFF00);
+    fill(255,255,155);
     circle(newx, newy, 75);
     circle(newx, newy, 50);
     circle(newx, newy, 25);
@@ -932,12 +997,12 @@ void draw() {
       hasStarted=0;
     }
     }
-    if(hasStarted==2 && gameMode==6){
+    if(hasStarted==2 && (gameMode==6 || gameMode==20)){
       textSize(30);
       text("RULES", 300, 100);
       textSize(20);
-      text("The target will move towards the corner of the screen farthest from it", 300, 200);
-      text("If the center goes offscreen, you lose.", 300, 250);
+      text("The target will move around the screen.", 300, 200);
+      text("If you miss or take 1 second to shoot, you lose.", 300, 250);
       text("CLICK TO START", 300, 350);
       basicTimer=60;
       fakeMissLoss=false;
@@ -1356,6 +1421,8 @@ void draw() {
     text("After the game ends, you will also know the sum of your shots", 300, 350);
     text("The game will end after you take more than 1/2 a second to take a shot or you miss 25 times.", 300, 400);
     text("CLICK TO START", 300, 450);
+    textSize(50);
+    text("WARNING: FLASHING LIGHTS", 300, 550);
     basicTimer=40;
     basicTimeLoss=false;
     stupidBugFixer=0;
@@ -2088,7 +2155,989 @@ text("PRESS 1 TO PLAY AGAIN", 300, 350);
         hasStarted=0;
       }
   }
+  if(gameMode==15 && hasStarted==2){
+    textSize(30);
+    text("RULES:", 300, 100);
+    textSize(20);
+    text("Each time you click, you will score points based on", 300, 200);
+    text("how close you clicked to the center.", 300, 250);
+    text("Your score is the average score of your shots.", 300, 300);
+    text("After the game ends, you will also know the sum of your shots", 300, 350);
+    text("The game will end after you take more than a second to take a shot or you miss 50 times.", 300, 400);
+    text("CLICK TO START", 300, 450);
+    basicTimer=60;
+    basicTimeLoss=false;
+    CirclesArrayList.clear();
+    shots=0;
+    score=0;
+    skill=0;
+    misses=0;
+  }
+    if((hasStarted>=3)&&(gameMode==15) && basicTimeLoss==false && missLoss==false) {
+   // 
+    if(basicTimer<0){
+      basicTimeLoss=true;
+    }
+    
+    fill(#FFFFFF);
+    circle(x, y, 550);
+    circle(x, y, 500);
+    fill(#161617);
+    circle(x, y, 450);
+    circle(x, y, 400);
+    fill(#0081FF);
+    circle(x, y, 350);
+    circle(x, y, 300);
+    fill(#FF0100);
+    circle(x, y, 250);
+    circle(x, y, 200);
+    fill(#FFFF00);
+    circle(x, y, 150);
+    circle(x, y, 100);
+    circle(x, y, 50);
+    basicTimer-=1;
+
+    
+    
+    for (int i=0; i<CirclesArrayList.size(); i++) {
+      Circles Part = CirclesArrayList.get(i);
+      if (hasStarted>2 ) {
+
+        Part.display();
+      }
+    }
+    if (mousepressed==true&&hasStarted>=3) {
+      file.play();
+      if(stupidBugFixer==1){
+        CirclesArrayList.add(new Circles(mouseX, mouseY));
+      }
+      shots+=1;
+      if(shots==1 && stupidBugFixer==0){
+        score=0;
+        shots=0;
+        stupidBugFixer=1;
+        basicTimer=60;
+      }
+
+      float AvalX = mouseX - x;
+      float AvalY = mouseY - y;
+
+      float AvalXPow = pow(AvalX, 2);
+      float AvalYPow = pow(AvalY, 2);
+
+      float AvalHPow  = AvalXPow + AvalYPow;
+
+      float AvalH = sqrt(AvalHPow);
+      
+      float targetMin = 0;
+      float targetMax = 50/2;
+      int round = 0;
+      boolean loopdone = false;
+      
+      while (round<=11 && loopdone == false) {
+        println(round);
+        if (AvalH>=targetMin*round&&AvalH<targetMax*round) {
+          score+=12-round;
+          if(round==1){
+            score-=1;
+            
+          }
+          loopdone = true;
+        } else {
+          round+=1;
+          
+        }
+        if(round>=12){
+          misses+=1;
+          loopdone = true;
+          file.stop();
+        }
+      }
+      
+      
+      if(misses==50){
+        missLoss=true;
+      }
+      x=random(0, width);
+      y=random(0, height);
+      mousepressed=false;
+      basicTimer=60;
+      skill=(score/shots);
+    }
+    textSize(35);
+    text("Score: "+skill, 100, 100);
+  }
+   if(hasStarted>=3 && gameMode ==15 && missLoss==true){
+    if(score>easyClassicHighScore){
+      easyClassicHighScore=score;
+    }
+    textSize(20);
+    text("You missed 50 shots.", 300, 100);
+    text("You lose.", 300, 150);
+    text("Your average score was "+skill, 300, 200);
+    text("Your total score was "+score, 300, 250);
+    text("Your high score is "+easyClassicHighScore, 300, 300);
+    text("PRESS 1 TO PLAY AGAIN", 300, 450);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+      
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
   
+  if(hasStarted>=3&&gameMode==15 && basicTimeLoss==true){
+    if(score>easyClassicHighScore){
+      easyClassicHighScore=score;
+    }
+    textSize(20);
+    text("You took more than 1 second to take a shot.", 300, 100);
+    text("You lose.", 300, 150);
+    text("Your average score was "+skill, 300, 200);
+    text("Your total score was "+score, 300, 250);
+    text("Your high score is "+easyClassicHighScore, 300, 300);
+    text("PRESS 1 TO PLAY AGAIN", 300, 450);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+      
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
+   if(hasStarted==2&&gameMode==16){
+    fill(#FFFFFF);
+    textSize(30);
+    text("RULES:",300,100);
+    textSize(20);
+    text("Each player will have 25 shots on the target.", 300, 200);
+    text("After player 1 takes their shots, player two will", 300, 250);
+    text("take theirs, and then the game will end.", 300,300);
+    text("Whoever has the highest total score will win.", 300,350);
+    text("If there is a tie, whoever shot the tiebreaker", 300, 400);
+    text("circle more is the winner.", 300, 450);
+    text("If the match is still tied, it will end in a draw.", 300, 500);
+    text("If a player takes more that 1 second for any shot, they instantly lose.", 300, 550);
+    textSize(30);
+    text("CLICK TO START", 300, 650);
+    basicTimer=60;
+    P1duelTimeLoss=false;
+    P2duelTimeLoss=false;
+    stupidBugFixer=0;
+    P1duelScore=0;
+    P2duelScore=0;
+    P1tiebreaker=0;
+    P2tiebreaker=0;
+  }
+  if (hasStarted>=3 && gameMode == 16 && hasStarted<=28 && P1duelTimeLoss==false){
+    fill(#FFFFFF);
+    circle(x, y, 550);
+    circle(x, y, 500);
+    fill(#161617);
+    circle(x, y, 450);
+    circle(x, y, 400);
+    fill(#0081FF);
+    circle(x, y, 350);
+    circle(x, y, 300);
+    fill(#FF0100);
+    circle(x, y, 250);
+    circle(x, y, 200);
+    fill(#FFFF00);
+    circle(x, y, 150);
+    circle(x, y, 100);
+    circle(x, y, 50);
+    basicTimer=basicTimer-1;
+    
+    if(basicTimer<0){
+      P1duelTimeLoss=true;
+    }
+    
+    if (mousepressed==true&&hasStarted>=3) {
+      file.play();
+      if(stupidBugFixer==1){
+        CirclesArrayList.add(new Circles(mouseX, mouseY));
+      }
+      shots+=1;
+      if(P2duelShots==1 && stupidBugFixer==0){
+        P2duelScore=0;
+        P2duelShots=0;
+        stupidBugFixer=1;
+        basicTimer=60;
+        hasStarted-=1;
+      }
+
+      float AvalX = mouseX - x;
+      float AvalY = mouseY - y;
+
+      float AvalXPow = pow(AvalX, 2);
+      float AvalYPow = pow(AvalY, 2);
+
+      float AvalHPow  = AvalXPow + AvalYPow;
+
+      float AvalH = sqrt(AvalHPow);
+      
+      float targetMin = 0;
+      float targetMax = 50/2;
+      int round = 0;
+      boolean loopdone = false;
+      
+      while (round<=11 && loopdone == false) {
+        println(round);
+        if (AvalH>=targetMin*round&&AvalH<targetMax*round) {
+          P1duelScore+=12-round;
+          if(round==1){
+            P1duelScore-=1;
+            P1tiebreaker+=1;
+          }
+          loopdone = true;
+        } else {
+          round+=1;
+          if(round==12){
+            file.stop();
+          }
+        }
+      }
+      
+
+      x=random(0, width);
+      y=random(0, height);
+      mousepressed=false;
+      basicTimer=60;
+    }
+    textSize(35);
+    text("Score: "+P1duelScore, 100, 100);
+  }
+  
+  if(hasStarted>=3 && hasStarted<=28 && gameMode==16 && P1duelTimeLoss==true){
+    textSize(20);
+    fill(#FFFFFF);
+    text("Player 1, you took more than a second to make a shot.", 300, 100);
+    text("You lose.", 300, 150);
+    textSize(30);
+    text("PRESS 1 TO PLAY AGAIN", 300, 450);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+    
+     if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
+  
+  if(hasStarted==29&&gameMode==16){
+    fill(#FFFFFF);
+    textSize(20);
+    text("Player 1, your round is over.", 300, 100);
+    text("You scored "+P1duelScore, 300, 150);
+    text("points, and hit the tiebreaker circle "+P1tiebreaker, 440, 150);
+    text("times.", 300, 200);
+    text("Player 2, click to start.", 300, 250);
+     basicTimer=60;
+      if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+    
+  }
+  if(hasStarted>=30&&hasStarted<=54&&P2duelTimeLoss==false&&gameMode==16){
+    fill(#FFFFFF);
+    circle(x, y, 550);
+    circle(x, y, 500);
+    fill(#161617);
+    circle(x, y, 450);
+    circle(x, y, 400);
+    fill(#0081FF);
+    circle(x, y, 350);
+    circle(x, y, 300);
+    fill(#FF0100);
+    circle(x, y, 250);
+    circle(x, y, 200);
+    fill(#FFFF00);
+    circle(x, y, 150);
+    circle(x, y, 100);
+    circle(x, y, 50);
+    
+    if(basicTimer<0){
+      P2duelTimeLoss=true;
+    }
+    if (mousepressed==true&&hasStarted>=3) {
+      file.play();
+      if(stupidBugFixer==1){
+        CirclesArrayList.add(new Circles(mouseX, mouseY));
+      }
+      P2duelShots+=1;
+      if(shots==1 && stupidBugFixer==0){
+        P2duelScore=0;
+        shots=0;
+        stupidBugFixer=1;
+        basicTimer=60;
+      }
+
+      float AvalX = mouseX - x;
+      float AvalY = mouseY - y;
+
+      float AvalXPow = pow(AvalX, 2);
+      float AvalYPow = pow(AvalY, 2);
+
+      float AvalHPow  = AvalXPow + AvalYPow;
+
+      float AvalH = sqrt(AvalHPow);
+      
+      float targetMin = 0;
+      float targetMax = 50/2;
+      int round = 0;
+      boolean loopdone = false;
+      
+      while (round<=11 && loopdone == false) {
+        println(round);
+        if (AvalH>=targetMin*round&&AvalH<targetMax*round) {
+          P2duelScore+=12-round;
+          if(round==1){
+            P2duelScore-=1;
+            P2tiebreaker+=1;
+          }
+          loopdone = true;
+        } else {
+          round+=1;
+          if(round==12){
+            file.stop();
+          }
+        }
+      }
+      
+      basicTimer=60;
+      x=random(0, width);
+      y=random(0, height);
+      mousepressed=false;
+      
+    }
+    textSize(35);
+    text("Score: "+P2duelScore, 100, 100);
+    basicTimer-=1;
+  }
+  if(hasStarted>=30 && hasStarted<=54 && gameMode==16 && P2duelTimeLoss==true){
+    textSize(20);
+    text("Player 2, you took more than a second to make a shot.", 300, 100);
+    text("You lose.", 300, 150);
+    textSize(30);
+    text("PRESS 1 TO PLAY AGAIN", 300, 450);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+     if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
+  if(hasStarted>=55&&gameMode==16){
+    if(P1duelScore>P2duelScore||(P1duelScore==P2duelScore&&P1tiebreaker>P2tiebreaker)){
+      textSize(20);
+      text("Player 2, your round is over.", 300, 100);
+      text("You scored "+P2duelScore, 300, 150);
+      text("points, and hit the tiebreaker circle "+P2tiebreaker, 440, 150);
+      text("times.", 300, 200);
+      text("Player 1 scored "+P1duelScore, 300, 250);
+      text("points, and hit the tiebreaker circle "+P1tiebreaker, 505, 250);
+      text("times.", 300, 300);
+      text("Therefore, Player 1 wins", 300, 350.);
+      textSize(30);
+      text("PRESS 1 TO PLAY AGAIN", 300, 450);
+      text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+      text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+       if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+    }
+    else{
+      if(P2duelScore>P1duelScore||(P2duelScore==P1duelScore&&P2tiebreaker>P1tiebreaker)){
+      textSize(20);
+      text("Player 2, your round is over.", 300, 100);
+      text("You scored "+P2duelScore, 300, 150);
+      text("points, and hit the tiebreaker circle "+P2tiebreaker, 440, 150);
+      text("times.", 300, 200);
+      text("Player 1 scored "+P1duelScore, 300, 250);
+      text("points, and hit the tiebreaker circle "+P1tiebreaker, 505, 250);
+      text("times.", 300, 300);
+      text("Therefore, Player 2 wins", 300, 350.);
+      textSize(30);
+      text("PRESS 1 TO PLAY AGAIN", 300, 450);
+      text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+      text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+       if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+    }
+    else{
+      textSize(20);
+      fill(#FFFFFF);
+      text("Player 2, your round is over.", 300, 100);
+      text("You scored "+P2duelScore, 300, 150);
+      text("points, and hit the tiebreaker circle "+P2tiebreaker, 440, 150);
+      text("times.", 300, 200);
+      text("Player 1 scored "+P1duelScore, 300, 250);
+      text("points, and hit the tiebreaker circle "+P1tiebreaker, 505, 250);
+      text("times.", 300, 300);
+      text("Therefore, the match is a draw.", 300, 350.);
+      textSize(30);
+      text("PRESS 1 TO PLAY AGAIN", 300, 450);
+      text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+      text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+       if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+      }
+    }
+  }
+   if(hasStarted==2 && gameMode==17){
+    fill(0,0,255);
+    textSize(30);
+    text("RULES:", 300, 100);
+    textSize(20);
+    text("Each time you click on the target, you will gain 1 point.", 300, 200);
+    text("Every frame, the target will get smaller.", 300, 250);
+    text("After 2 seconds, the target will disappear completely.", 300, 300);
+    text("If this happens, you will lose", 300, 350);
+    textSize(30);
+    text("CLICK TO START", 300, 450);
+    survivalTimeLoss=false;
+    score=0;
+    survivalTimer=60;
+  }
+  if(hasStarted>=3 && gameMode==17 && survivalTimeLoss==false){
+    
+    
+    
+    survivalTargetSize=survivalTimer*8;
+    circle(x,y,survivalTargetSize);
+    if(mousepressed==true){
+      file.play();
+      pythagorasA=mouseX-x;
+      pythagorasB=mouseY-y;
+      pythagorasA=pow(pythagorasA,2);
+      pythagorasB=pow(pythagorasB,2);
+      pythagorasC=sqrt(pythagorasA+pythagorasB);
+      if(pythagorasC<=survivalTargetSize){
+        survivalTimer=60;
+        x=random(0, width);
+        y=random(0, height);
+        
+        score+=1;
+      }
+      else{
+        file.stop();
+      }
+      mousepressed=false;
+    }
+    survivalTimer-=1;
+    textSize(35);
+    text("Score: "+score, 100, 100);
+    if(survivalTimer<0){
+      survivalTimeLoss=true;
+    }
+  }
+  if(hasStarted>=3 && gameMode==17 && survivalTimeLoss==true){
+    if(score>easySurvivalHighScore){
+      easySurvivalHighScore=score;
+    }
+    textSize(20);
+    text("You failed to click the target in under 1 second.", 300, 100);
+    text("You lose.", 300, 150);
+    text("Your final score was "+score, 300, 200);
+    text("Your high score is "+easySurvivalHighScore, 300, 250);
+    textSize(30);
+    text("PRESS 1 TO PLAY AGAIN", 300, 300);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 350);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 400);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
+   if(hasStarted==2&&gameMode==18){
+    textSize(30);
+    text("RULES:", 300, 100);
+    textSize(20);
+    text("The only circles are inner yellow and bull's eye.", 300, 200);
+    text("The bull's eye is worth twice as much as inner yellow.", 300, 250);
+    text("You have 1 second to hit the target.", 300, 300);
+    text("Good luck.", 300, 350);
+    textSize(30);
+    text("CLICK TO BEGIN", 300, 400);
+    skill=0;
+    score=0;
+    shots=0;
+    tensTimerLoss=false;
+    tensTimer=60;
+  }
+  if(hasStarted>=3 && gameMode==18 && tensTimerLoss==false){
+    fill(255,255,0);
+    circle(x,y,100);
+    circle(x,y,50);
+     if(mousepressed==true){
+      file.play();
+      pythagorasA=mouseX-x;
+      pythagorasB=mouseY-y;
+      pythagorasA=pow(pythagorasA,2);
+      pythagorasB=pow(pythagorasB,2);
+      pythagorasC=sqrt(pythagorasA+pythagorasB);
+      if(pythagorasC<=50){
+        tensTimer=60;
+        x=random(0, width);
+        y=random(0, height);
+        score+=2;
+      }
+      else{
+         if(pythagorasC<=100){
+           tensTimer=60;
+        x=random(0, width);
+        y=random(0, height);
+        
+        score+=1;
+         }
+         else{
+         file.stop();
+       }
+       }
+       
+       mousepressed=false;
+       shots+=1;
+       skill=score/shots;
+      } tensTimer-=1;
+    textSize(35);
+    text("Score: "+skill, 100, 100);
+    if(tensTimer<0){
+      tensTimerLoss=true;
+      
+  }
+     
+    }
+    if(hasStarted>=3 && gameMode==18 && tensTimerLoss==true){
+      if(score>easyTensHighScore){
+        easyTensHighScore=score;
+      }
+      textSize(20);
+      text("You failed to click the target in 1 second.", 300, 100);
+      text("You lose.", 300, 150);
+      text("Your average score was "+skill, 300, 200);
+      text("Your total score was "+score, 300, 250);
+      text("Your high score is "+easyTensHighScore, 300, 300);
+      textSize(30);
+      text("PRESS 1 TO PLAY AGAIN", 300, 350);
+      text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 400);
+      text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 450);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+    }
+     if(hasStarted==2 && gameMode==19){
+    textSize(20);
+    text("RULES:", 300, 100);
+    text("There will be two targets.", 300, 200);
+    text("The one will normal coloring is real.", 300, 250);
+    text("The one with changed coloring is fake.", 300, 300);
+    text("If you ever click the fake target, you lose.", 300, 350);
+    text("If you take more than 1 second to click a target, you lose.", 300, 400);
+    text("If you miss, you lose", 300, 450);
+    text("CLICK TO START", 300, 550);
+    basicTimer=45;
+    fakeMissLoss=false;
+    fakeTimeLoss=false;
+    score=0;
+    shots=0;
+    skill=0;
+  }
+  if(hasStarted>=3 && gameMode==19 && fakeTimeLoss==false && fakeMissLoss==false){
+    
+    if(basicTimer<0){
+      fakeTimeLoss=true;
+    }
+    
+    fill(0,255,0);
+    circle(newx, newy, 550);
+    circle(newx, newy, 500);
+    fill(#161617);
+    circle(newx, newy, 450);
+    circle(newx, newy, 400);
+    fill(#0000FF);
+    circle(newx, newy, 350);
+    circle(newx, newy, 300);
+    fill(255,50,50);
+    circle(newx, newy, 250);
+    circle(newx, newy, 200);
+    fill(255,255,155);
+    circle(newx, newy, 150);
+    circle(newx, newy, 100);
+    circle(newx, newy, 50);
+    
+    fill(#FFFFFF);
+    circle(x, y, 550);
+    circle(x, y, 500);
+    fill(#161617);
+    circle(x, y, 450);
+    circle(x, y, 400);
+    fill(#0081FF);
+    circle(x, y, 350);
+    circle(x, y, 300);
+    fill(#FF0100);
+    circle(x, y, 250);
+    circle(x, y, 200);
+    fill(#FFFF00);
+    circle(x, y, 150);
+    circle(x, y, 100);
+    circle(x, y, 50);
+    
+    basicTimer-=1;
+
+    if (mousepressed==true&&hasStarted>=4) {
+      file.play();
+      if(stupidBugFixer==1){
+        CirclesArrayList.add(new Circles(mouseX, mouseY));
+      }
+      shots+=1;
+      if(shots==1 && stupidBugFixer==0){
+        score=0;
+        shots=0;
+        stupidBugFixer=1;
+        basicTimer=60;
+      }
+
+      float AvalX = mouseX - x;
+      float AvalY = mouseY - y;
+
+      float AvalXPow = pow(AvalX, 2);
+      float AvalYPow = pow(AvalY, 2);
+
+      float AvalHPow  = AvalXPow + AvalYPow;
+
+      float AvalH = sqrt(AvalHPow);
+      
+      float targetMin = 0;
+      float targetMax = 50/2;
+      int round = 0;
+      boolean loopdone = false;
+      
+      while (round<=11 && loopdone == false) {
+        println(round);
+        if (AvalH>=targetMin*round&&AvalH<targetMax*round) {
+          score+=12-round;
+          if(round==1){
+            score-=1;
+            
+          }
+          loopdone = true;
+        } else {
+          round+=1;
+        }
+      }
+      if(round==12 && hasStarted>=4){
+        fakeMissLoss=true;
+        file.stop();
+      }
+
+      x=random(0, width);
+      y=random(0, height);
+      newx=random(0, width);
+      newy=random(0, height);
+      mousepressed=false;
+      basicTimer=60;
+      skill=(score/shots);
+    }
+    textSize(35);
+    text("Score: "+skill, 100, 100);
+  }
+  if(hasStarted>=3&&gameMode==19 && fakeTimeLoss==true){
+    if(score>easyFakeHighScore){
+      easyFakeHighScore=score;
+    }
+    textSize(20);
+    text("You took more than 3/4s of a second to take a shot.", 300, 100);
+    text("You lose.", 300, 150);
+    text("Your average score was "+skill, 300, 200);
+    text("Your total score was "+score, 300, 250);
+    text("Your high score is "+easyFakeHighScore, 300, 300);
+    text("PRESS 1 TO PLAY AGAIN", 300, 450);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+      
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
+  
+  
+  if(hasStarted>=3&&gameMode==19 && fakeMissLoss==true){
+    if(score>easyFakeHighScore){
+      easyFakeHighScore=score;
+    }
+    textSize(20);
+    text("You didn't click the target.", 300, 100);
+    text("You lose.", 300, 150);
+    text("Your average score was "+skill, 300, 200);
+    text("Your total score was "+score, 300, 250);
+    text("Your high score is "+easyFakeHighScore, 300, 300);
+    text("PRESS 1 TO PLAY AGAIN", 300, 450);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 500);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 550);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+      
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
+   if(hasStarted>=3 && gameMode==20 && fakeMissLoss==false && fakeTimeLoss==false){
+      if(basicTimer<0){
+        fakeTimeLoss=true;
+      }
+    fill(#FFFFFF);
+    circle(x, y, 275);
+    circle(x, y, 250);
+    fill(#161617);
+    circle(x, y, 225);
+    circle(x, y, 200);
+    fill(#0081FF);
+    circle(x, y, 175);
+    circle(x, y, 150);
+    fill(#FF0100);
+    circle(x, y, 125);
+    circle(x, y, 100);
+    fill(#FFFF00);
+    circle(x, y, 75);
+    circle(x, y, 50);
+    circle(x, y, 25);
+    basicTimer-=1;
+    moveTimer-=1;
+    if(moveTimer<=0 || (ogx>2 && ogy>2)){
+      ogx=random(0,3);
+      ogy=random(0,3);
+      moveTimer=random(10,30);
+    }
+    
+    if(ogx<=1){
+      x+=width/480;
+    }
+    if(ogx>1 && ogx<=2){
+      x-=width/480;
+    }
+    if(ogy<=1){
+      y-=height/480;
+    }
+    if(ogy<=2 && ogy>1){
+      y+=height/480;
+    }
+    else{
+      y-=height/480;
+    }
+    
+    for (int i=0; i<CirclesArrayList.size(); i++) {
+      Circles Part = CirclesArrayList.get(i);
+      if (hasStarted>2 ) {
+
+        Part.display();
+      }
+    }
+    if (mousepressed==true&&hasStarted>=3) {
+      file.play();
+      if(stupidBugFixer==1){
+        CirclesArrayList.add(new Circles(mouseX, mouseY));
+      }
+      shots+=1;
+      if(shots==1 && stupidBugFixer==0){
+        score=0;
+        shots=0;
+        stupidBugFixer=1;
+        basicTimer=60;
+        CirclesArrayList.clear();
+      }
+
+      float AvalX = mouseX - x;
+      float AvalY = mouseY - y;
+
+      float AvalXPow = pow(AvalX, 2);
+      float AvalYPow = pow(AvalY, 2);
+
+      float AvalHPow  = AvalXPow + AvalYPow;
+
+      float AvalH = sqrt(AvalHPow);
+      
+      float targetMin = 0;
+      float targetMax = 25/2;
+      int round = 0;
+      boolean loopdone = false;
+      
+      while (round<=11 && loopdone == false) {
+        println(round);
+        if (AvalH>=targetMin*round&&AvalH<targetMax*round) {
+          score+=12-round;
+          if(round==1){
+            score-=1;
+            
+          }
+          loopdone = true;
+        } else {
+          round+=1;
+          if(round==12){
+            file.stop();
+          }
+          
+        }
+      }
+      
+      if(round>=12 && hasStarted>=4){
+        fakeMissLoss=true;
+      }
+
+      x=random(0, width);
+      y=random(0, height);
+      ogx=random(0,3);
+      ogy=random(0,3);
+      mousepressed=false;
+      basicTimer=60;
+      skill=(score/shots);
+      print(ogx);
+      print(ogy);
+    }
+    textSize(35);
+    text("Score: "+skill, 100, 100);
+    if(x<0){
+      ogx=1;
+    }
+    if(x>width){
+      ogx=2;
+    }
+    if(y<0){
+     ogy=2; 
+    }
+    if(y>height){
+     ogy=1;
+    }
+   }
+  if(hasStarted>=3 && gameMode==20 && fakeMissLoss==true){
+    textSize(20);
+    if(score>easyMoveHighScore){
+      easyMoveHighScore=score;
+    }
+    text("You missed the target.", 300, 100);
+    text("You lose.", 300, 150);
+    text("Your average score was "+skill, 300, 200);
+    text("Your total score was "+score, 300, 250);
+    text("Your high score is "+easyMoveHighScore, 300, 300);
+    textSize(30);
+    text("PRESS 1 TO PLAY AGAIN", 300, 350);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 400);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 450);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
+  if(hasStarted>=3 && gameMode==20 && fakeTimeLoss==true){
+    textSize(20);
+    if(score>easyMoveHighScore){
+      easyMoveHighScore=score;
+    }
+    text("You took too long to take a shot.", 300, 100);
+    text("You lose.", 300, 150);
+    text("Your average score was "+skill, 300, 200);
+    text("Your total score was "+score, 300, 250);
+    text("Your high score is "+easyMoveHighScore, 300, 300);
+    textSize(30);
+    text("PRESS 1 TO PLAY AGAIN", 300, 350);
+    text("PRESS 2 TO RETURN TO THE GAME SELECTOR", 300, 400);
+    text("PRESS 3 TO RETURN TO THE MAIN MENU", 300, 450);
+    if(key1==true){
+      hasStarted=2;
+     
+    }
+    if(key2==true){
+      hasStarted=1;
+    }
+    if(key3==true){
+      hasStarted=0;
+    }
+  }
 }
 
 
@@ -2177,7 +3226,7 @@ void mousePressed() {
     
     
   }
-  if(hasStarted==1){
+  if(hasStarted==1 && difficulty == 2){
   file.play();
   pythagorasA=mouseX-width/6;
   pythagorasB=mouseY-height/4;
@@ -2287,7 +3336,6 @@ void mousePressed() {
                         pythagorasC=sqrt(pythagorasA+pythagorasB);
                         if(pythagorasC<=75){
                           gameMode=11;
-                          file = new SoundFile(this, "doorslam-90782.mp3");
                         }
                         else{
                           pythagorasA=mouseX-width/3*2;
@@ -2335,7 +3383,164 @@ void mousePressed() {
       }
     }
   }
-  
+ if(hasStarted==1 && difficulty == 1){
+  file.play();
+  pythagorasA=mouseX-width/6;
+  pythagorasB=mouseY-height/4;
+  pythagorasA=pow(pythagorasA,2);
+  pythagorasB=pow(pythagorasB,2);
+  pythagorasC=sqrt(pythagorasA+pythagorasB);
+  if(pythagorasC<=75){
+    gameMode=15;
+  }
+  else{
+    pythagorasA=mouseX-width/3;
+    pythagorasB=mouseY-height/4;
+    pythagorasA=pow(pythagorasA,2);
+    pythagorasB=pow(pythagorasB,2);
+    pythagorasC=sqrt(pythagorasA+pythagorasB);
+    if(pythagorasC<=75){
+    gameMode=16;
+  }
+    else{
+      pythagorasA=mouseX-width/2;
+      pythagorasB=mouseY-height/4;
+      pythagorasA=pow(pythagorasA,2);
+      pythagorasB=pow(pythagorasB,2);
+      pythagorasC=sqrt(pythagorasA+pythagorasB);
+      if(pythagorasC<=75){
+      gameMode=17;
+      }
+      else{
+        pythagorasA=mouseX-width/3*2;
+        pythagorasB=mouseY-height/4;
+        pythagorasA=pow(pythagorasA,2);
+        pythagorasB=pow(pythagorasB,2);
+        pythagorasC=sqrt(pythagorasA+pythagorasB);
+        if(pythagorasC<=75){
+        gameMode=18;
+        }
+        else{
+          pythagorasA=mouseX-width/6*5;
+          pythagorasB=mouseY-height/4;
+          pythagorasA=pow(pythagorasA,2);
+          pythagorasB=pow(pythagorasB,2);
+          pythagorasC=sqrt(pythagorasA+pythagorasB);
+          if(pythagorasC<=75){
+            gameMode=19;
+          
+            
+          }
+          else{
+            pythagorasA=mouseX-width/6*5;
+            pythagorasB=mouseY-height/4*3;
+            pythagorasA=pow(pythagorasA,2);
+            pythagorasB=pow(pythagorasB,2);
+            pythagorasC=sqrt(pythagorasA+pythagorasB);
+            if(pythagorasC<=75){
+              hasStarted= -1;
+            }
+            else{
+               pythagorasA=mouseX-width/6;
+               pythagorasB=mouseY-height/4*3;
+               pythagorasA=pow(pythagorasA,2);
+               pythagorasB=pow(pythagorasB,2);
+               pythagorasC=sqrt(pythagorasA+pythagorasB);
+               if(pythagorasC<=75){
+               gameMode=20;
+              }
+              else{
+                pythagorasA=mouseX-width/3;
+                pythagorasB=mouseY-height/4*3;
+                pythagorasA=pow(pythagorasA,2);
+                pythagorasB=pow(pythagorasB,2);
+                pythagorasC=sqrt(pythagorasA+pythagorasB);
+                if(pythagorasC<=75){
+                  gameMode=21;
+                 }
+                 else{
+                  pythagorasA=mouseX-width/2;
+                  pythagorasB=mouseY-height/4*3;
+                  pythagorasA=pow(pythagorasA,2);
+                  pythagorasB=pow(pythagorasB,2);
+                  pythagorasC=sqrt(pythagorasA+pythagorasB);
+                  if(pythagorasC<=75){
+                    gameMode=22;
+                  }
+                  else{
+                    pythagorasA=mouseX-width/3*2;
+                    pythagorasB=mouseY-height/4*3;
+                    pythagorasA=pow(pythagorasA,2);
+                    pythagorasB=pow(pythagorasB,2);
+                    pythagorasC=sqrt(pythagorasA+pythagorasB);
+                    if(pythagorasC<=75){
+                      gameMode=23;
+                    }
+                    else{
+                      pythagorasA=mouseX-width/6;
+                      pythagorasB=mouseY-height/2;
+                      pythagorasA=pow(pythagorasA,2);
+                      pythagorasB=pow(pythagorasB,2);
+                      pythagorasC=sqrt(pythagorasA+pythagorasB);
+                      if(pythagorasC<=75){
+                        gameMode=24;
+                      }
+                      else{
+                        pythagorasA=mouseX-width/3;
+                        pythagorasB=mouseY-height/2;
+                        pythagorasA=pow(pythagorasA,2);
+                        pythagorasB=pow(pythagorasB,2);
+                        pythagorasC=sqrt(pythagorasA+pythagorasB);
+                        if(pythagorasC<=75){
+                          gameMode=25;
+                          
+                        }
+                        else{
+                          pythagorasA=mouseX-width/3*2;
+                          pythagorasB=mouseY-height/2;
+                          pythagorasA=pow(pythagorasA,2);
+                          pythagorasB=pow(pythagorasB,2);
+                          pythagorasC=sqrt(pythagorasA+pythagorasB);
+                          if(pythagorasC<=75){
+                            gameMode=26;
+                          }
+                          else{
+                             pythagorasA=mouseX-width/6*5;
+                             pythagorasB=mouseY-height/2;
+                             pythagorasA=pow(pythagorasA,2);
+                             pythagorasB=pow(pythagorasB,2);
+                             pythagorasC=sqrt(pythagorasA+pythagorasB);
+                             if(pythagorasC<=75){
+                               gameMode=27;
+                             }
+                             else{
+                               pythagorasA=mouseX-width/2;
+                               pythagorasB=mouseY-height/2;
+                               pythagorasA=pow(pythagorasA,2);
+                               pythagorasB=pow(pythagorasB,2);
+                               pythagorasC=sqrt(pythagorasA+pythagorasB);
+                               if(pythagorasC<=75){
+                                 gameMode=28;
+                               }
+                               else{
+                                 hasStarted-=1;
+                                 file.stop();
+                               }
+                             }
+                          }
+                        }
+                      }
+                    }
+                  }
+                 }
+               }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   
   print(hasStarted);
   hasStarted+=1;
